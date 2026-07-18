@@ -64,12 +64,38 @@ The PR Dashboard acts as the primary code quality and merge analysis layer for m
 
 ```mermaid
 flowchart TD
-    Maintainer(["Maintainer"]) -- "Reviews PRs with" --> PD["<b>PR Dashboard</b><br>(Merge Analysis)"]
-    SC["<b>Skills Context</b><br>(Core + Local Repo Rules)"] -- "Powers reasoning" --> PD
-    PD -- "Fetches open PRs & AI Bot Reviewer summaries" --> GH["<b>GitHub</b>"]
-    PD -- "If gaps found in PRs, send logs" --> SU["<b>Skill Updater</b><br>(Knowledge Evolution)"]
-    SU -- "Generates skills updates" --> SC
+    %% Nodes
+    SC["<b><font color='#F59E0B'>Skills Context</font></b><br><br>Skills Core (Shared Org wide skills)<br>per-repo skills (AGENTS.md + skills/ directory)"]
+    Contributors["Contributors"]
+    Maintainers["Maintainers"]
+    
+    SB["<b><font color='#F59E0B'>Skill Bot</font></b> (Discord Assistant)<br><br>Answers contributor questions<br>using asked question-oriented project skills ➔ LLM fallback"]
+    PD["<b><font color='#F59E0B'>PR Dashboard</font></b> (Merge Analysis)<br><br>Clusters PRs semantically, injects skills & communication(e.g. Discord) context.<br>Extracts PR changes briefly & open questions for maintainers to review.<br>Prepares Conflict DAG with merge reasoning & post-merge impact."]
+    SU["<b><font color='#F59E0B'>Skill Updater</font></b> (Knowledge Evolution)<br><br>Collects all logs from different components.<br>Updates relevant repo-skills by asking maintainers or admins<br>to review and approve generated updates."]
+
+    %% Edges
+    %% Contributor Flow
+    Contributors -- "Ask Questions in Discord" --> SB
+    SC -- "Powers answers" --> SB
+    SB -- "If gaps found, send logs for maintainers<br>to answer and update project skill via updater." --> SU
+
+    %% Maintainer Flow
+    Maintainers -- "Reviews PRs<br>with" --> PD
+    SC -- "Powers reasoning" --> PD
+    PD -- "If gaps found, send logs for maintainers<br>to answer and update those project skills via updater." --> SU
+
+    %% Feedback Loop & Sync
+    Maintainers -- "Collects communication platform (e.g. Discord) discussions, filters important<br>topics by giving that repo-skills context, and sends suggested updates to maintainers<br>to reformat or modify as needed (maintainer approve)" --> SU
+    SU -- "PR Skill Updater bot opens PR for gap skills and<br>recently merged PR context (maintainers approve)" --> SC
+
+    %% Style Classes
+    classDef yellowBox fill:#1E293B,stroke:#F59E0B,stroke-width:2px,color:#F8FAFC;
+    classDef purpleBox fill:#1E293B,stroke:#8B5CF6,stroke-width:2px,color:#F8FAFC;
+    
+    class SC,SB,PD,SU yellowBox;
+    class Contributors,Maintainers purpleBox;
 ```
+
 
 1. **Pull Request Fetching**: The dashboard connects to GitHub via `gh` to retrieve open/closed PRs, modified files, and AI Bot Reviewer (e.g., CodeRabbit, Devin) summaries.
 2. **Context-Grounded Reasoning**: It reads the local repository context (`context.md`) and the global/per-repo skills from the Skills Core to evaluate PRs against the project rules.
