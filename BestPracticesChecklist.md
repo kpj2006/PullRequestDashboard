@@ -62,7 +62,7 @@
   - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/issues
 
 - [x] 🟡 **english** — Documentation is provided in English and English bug reports/comments are accepted.
-  - *Note:* All project documentation, code comments, and GitHub issue guidelines are written in English.
+  - *Note:* All project documentation, code comments, GitHub issue templates, and commit messages are in English.
 
 ---
 
@@ -99,7 +99,7 @@
 ### Bug Reporting
 
 - [x] 🔴 **report_process** — A bug-reporting process exists (e.g., GitHub Issues link in README).
-  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/issues
+  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/.github/ISSUE_TEMPLATE/bug_report.yml
 
 - [x] 🟡 **report_tracker** — An issue tracker (e.g., GitHub Issues) is used to track individual bugs.
   - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/issues
@@ -134,7 +134,7 @@
   - *Justification:* Interpreted language (Python 3.10+); no compilation or build step required.
 
 - [x] 🔵 **build_common_tools** — Common build tools are used (npm, pip, cargo, make, gradle, etc.). *(SUGGESTED)*
-  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/main.py
+  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/CONTRIBUTING.md#setup
 
 - [x] 🟡 **build_floss_tools** — The project can be built using only FLOSS tools.
   - *Note:* Uses Python, pip, venv, and Ollama open-weights models.
@@ -142,10 +142,10 @@
 ### Automated Testing
 
 - [x] 🔵 **test_invocation** — The test suite can be invoked in a standard way for the language (e.g., `npm test`, `pytest`, `cargo test`). *(SUGGESTED)*
-  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/main.py
+  - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/CONTRIBUTING.md#3-test--format-your-changes
 
 - [x] 🔵 **test_most** — The test suite covers most code branches, input fields, and functionality. *(SUGGESTED)*
-  - *Estimated coverage %:* ~75% (covers GitHub fetching, SentenceTransformer clustering in grouping.py, HTML DAG generation in render.py, and Ollama analysis).
+  - *Estimated coverage %:* ~75% (covers GitHub fetching in github.py, SentenceTransformer clustering in grouping.py, Ollama LLM integration in ollama.py, and DAG rendering in render.py).
 
 ### New Functionality Testing Policy
 
@@ -153,7 +153,7 @@
   - *Evidence (CONTRIBUTING reference or informal policy):* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/CONTRIBUTING.md#pull-request-guidelines
 
 - [x] 🔴 **tests_are_added** — Evidence exists that the test policy has been followed in recent major changes (e.g., PRs include tests).
-  - *Evidence URL (recent PR with tests):* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/main.py
+  - *Evidence URL (recent PR with tests):* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/.github/workflows/danger.yml
 
 - [x] 🔵 **tests_documented_added** — The test policy is documented in contribution instructions. *(SUGGESTED)*
   - *Evidence URL:* https://github.com/AOSSIE-Org/PullRequestDashboard/blob/main/CONTRIBUTING.md#pull-request-guidelines
@@ -161,10 +161,10 @@
 ### Linting / Warning Flags
 
 - [x] 🔴 **warnings** — At least one linter or compiler warning flag is enabled (ESLint, Pylint, clippy, golangci-lint, Slither for Solidity, etc.).
-  - *Tool used:* pre-commit hooks (trailing-whitespace, check-yaml, check-json, check-toml, detect-secrets) and CodeQL SAST.
+  - *Tool used:* pre-commit hooks (trailing-whitespace, check-yaml, check-json, check-toml, detect-secrets), Danger JS (dangerfile.js), and CodeQL SAST.
 
 - [x] 🔴 **warnings_fixed** — Warnings from the linter are addressed (not suppressed without reason).
-  - *Note:* All linter warnings from pre-commit hooks and CodeQL analysis are addressed before merging.
+  - *Note:* All linter warnings from pre-commit hooks, Danger JS, and CodeQL analysis are addressed before merging.
 
 - [x] 🔵 **warnings_strict** — Project uses maximum strictness in linter config where practical. *(SUGGESTED)*
   - *Note:* Strictly enforces file hygiene, secret scanning, and static analysis via pre-commit and Danger CI checks.
@@ -184,7 +184,7 @@
 ### Cryptography (mark N/A if project does not handle cryptography)
 
 - [~] 🔴 **crypto_published** — Only publicly reviewed cryptographic protocols/algorithms are used by default.
-  - *Justification:* Application uses standard TLS/HTTPS provided by standard libraries (`requests`/`httpx`); no custom cryptographic protocols implemented.
+  - *Justification:* Application uses standard TLS/HTTPS provided by standard libraries (requests/httpx); no custom cryptographic protocols implemented.
 
 - [~] 🟡 **crypto_call** — Project calls an established crypto library rather than reimplementing crypto functions.
   - *Justification:* Relies on underlying Python standard library and TLS network stack.
@@ -211,7 +211,7 @@
 ### Static Code Analysis
 
 - [x] 🔴 **static_analysis_fixed** — All medium+ severity vulnerabilities found by static analysis are fixed in a timely manner after confirmation.
-  - *Note:* CodeQL and Gitleaks findings are fixed immediately upon detection.
+  - *Note:* CodeQL, Gitleaks, and OSV-Scanner findings are fixed immediately upon detection.
 
 - [x] 🔵 **static_analysis_common_vulnerabilities** — The static analysis tool includes checks for common vulnerabilities in the language/environment (e.g., eslint-plugin-security, bandit, Slither). *(SUGGESTED)*
   - *Tool + ruleset:* CodeQL (python-security-and-quality), Gitleaks secret scanner, and OSV-Scanner.
@@ -221,17 +221,17 @@
 
 ### Dynamic Code Analysis
 
-- [x] 🔵 **dynamic_analysis** — At least one dynamic analysis tool is applied before major releases (fuzzer, web app scanner like OWASP ZAP, etc.). *(SUGGESTED)*
-  - *Tool used:* `main.py` pipeline test execution and OSV-Scanner release workflows.
+- [~] 🔵 **dynamic_analysis** — At least one dynamic analysis tool is applied before major releases (fuzzer, web app scanner like OWASP ZAP, etc.). *(SUGGESTED)*
+  - *Tool used:* `[~]` N/A — *Justification:* Interpreted Python application; no release-time web app scanner or fuzzer integrated.
 
-- [x] 🔵 **dynamic_analysis_enable_assertions** — Dynamic analysis / testing runs with assertions enabled (not just production mode). *(SUGGESTED)*
-  - *Note:* Python execution runs with standard runtime assertions enabled.
+- [~] 🔵 **dynamic_analysis_enable_assertions** — Dynamic analysis / testing runs with assertions enabled (not just production mode). *(SUGGESTED)*
+  - *Note:* `[~]` N/A — *Justification:* No dynamic analysis tool in use.
 
-- [x] 🔴 **dynamic_analysis_fixed** — Medium+ severity vulnerabilities found by dynamic analysis are fixed in a timely manner.
-  - *Note:* Any vulnerability or test failure identified during dynamic execution is resolved before release.
+- [~] 🔴 **dynamic_analysis_fixed** — Medium+ severity vulnerabilities found by dynamic analysis are fixed in a timely manner.
+  - *Note:* `[~]` N/A — *Justification:* No dynamic analysis tool in use.
 
 - [~] 🔵 **dynamic_analysis_unsafe** — If the project uses memory-unsafe languages (C/C++), memory safety tools (Valgrind, AddressSanitizer) are used. *(SUGGESTED)*
-  - *Justification:* Project is developed in Python, a memory-safe language.
+  - *Note:* `[~]` N/A — *Justification:* Project is developed in Python, a memory-safe language.
 
 ---
 
