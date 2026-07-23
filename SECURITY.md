@@ -19,6 +19,8 @@ Instead, report it privately using GitHub’s built-in private vulnerability rep
 
 https://github.com/AOSSIE-Org/PullRequestDashboard/security/advisories/new
 
+If private reporting is unavailable, email the maintainers at contact@aossie.org and do not include sensitive details in an unencrypted message.
+
 Private reporting ensures the issue can be addressed responsibly without exposing users to unnecessary risk.
 
 ## What to Include in Your Report
